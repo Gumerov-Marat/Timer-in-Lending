@@ -28,7 +28,7 @@ window.addEventListener('DOMContentLoaded', function () {
   info.addEventListener('click', function (event) {
     let target = event.target;
     if (target && target.classList.contains('info-header-tab'))
-  
+
      for (let i = 0; i < tab.length; i++) {
         if (target == tab[i]) {
           hideTabContent(0);
@@ -36,5 +36,46 @@ window.addEventListener('DOMContentLoaded', function () {
           break;
         }
      }
-   })
-})
+   });
+
+  //Timer
+  let deadline = '2020-07-17';
+
+  function getTimeRemaining(endtime) {
+    let t = Date.parse(endtime) - Date.parse(new Date()),
+    seconds = Math.floor((t / 1000) % 60),
+    minutes = Math.floor((t / 1000 / 60) % 60),
+    hourse = Math.floor((t / (1000 * 60 * 60)));
+  
+    return {
+      'total': t,
+      'hourse': hourse,
+      'minutes': minutes,
+      'seconds': seconds
+    };
+  }
+
+  function SetClock(id, endtime) {
+    let timer = document.getElementById(id);
+    let hourse = timer.querySelector('.hours');
+    let  minutes = timer.querySelector('.minutes');
+    let  seconds = timer.querySelector('.seconds');
+
+    let timeInterval = setInterval(updateClock, 1000);
+
+    function updateClock() {
+      let t = getTimeRemaining(endtime);
+      hourse.textContent = t.hourse;
+      minutes.textContent = t.minutes;
+      seconds.textContent = t.seconds;
+
+      if(t.total <= 0) {
+        clearInterval(timeInterval);
+      }
+    }
+  }
+
+  SetClock('timer', deadline);
+});
+
+
